@@ -1,0 +1,145 @@
+
+\typeout{The Effect of Anthropomorphic Design of Conversational Agents on User Outcomes: A Meta-Analysis of 79 Empirical Studies}
+
+% These are the instructions for authors for IJCAI-24.
+
+\documentclass[preprint,10pt,authoryear,nonatbib]{elsarticle}
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{soul}
+\usepackage[utf8]{inputenc}
+\usepackage[small]{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage[switch]{lineno}
+\usepackage{multirow}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[breakable]{tcolorbox}
+\usepackage{listings}
+\usepackage{csquotes}
+\usepackage[
+    backend=biber,
+    style=apa,
+    sorting=nyt,
+    sortcites=true
+]{biblatex}
+
+\DeclareLanguageMapping{english}{english-apa}
+\addbibresource{references.bib}
+
+\usepackage{url}
+\usepackage{longtable}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{hyperref} 
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{siunitx}
+\usepackage[table]{xcolor}
+
+\definecolor{changeblue}{RGB}{0,0,255}  % bright blue for visibility
+
+% Comment out this line in the camera-ready submission
+% \linenumbers
+\newenvironment{megaalgorithm}[1][htb]
+  {\renewcommand{\algorithmcfname}{Prompt}% Update algorithm name
+   \begin{algorithm}[#1]%
+  }{\end{algorithm}}
+
+
+\newif\ifshowchanges
+% \showchangestrue
+
+\ifshowchanges
+  \DeclareRobustCommand{\change}[1]{%
+    \textcolor{changeblue}{#1}%
+  }
+\else
+  \DeclareRobustCommand{\change}[1]{#1}
+\fi
+% the following package is optional:
+%\usepackage{latexsym}
+
+% See https://www.overleaf.com/learn/latex/theorems_and_proofs
+% for a nice explanation of how to define new theorems, but keep
+% in mind that the amsthm package is already included in this
+% template and that you must *not* alter the styling.
+\newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}
+
+% Following comment is from ijcai97-submit.tex:
+% The preparation of these files was supported by Schlumberger Palo Alto
+% Research, AT\&T Bell Laboratories, and Morgan Kaufmann Publishers.
+% Shirley Jowell, of Morgan Kaufmann Publishers, and Peter F.
+% Patel-Schneider, of AT\&T Bell Laboratories collaborated on their
+% preparation.
+
+% These instructions can be modified and used in other conferences as long
+% as credit to the authors and supporting agencies is retained, this notice
+% is not changed, and further modification or reuse is not restricted.
+% Neither Shirley Jowell nor Peter F. Patel-Schneider can be listed as
+% contacts for providing assistance without their prior permission.
+
+% To use for other conferences, change references to files and the
+% conference appropriate and use other authors, contacts, publishers, and
+% organizations.
+% Also change the deadline and address for returning papers and the length and
+% page charge instructions.
+% Put where the files are available in the appropriate places.
+
+
+% PDF Info Is REQUIRED.
+
+% Please leave this \pdfinfo block untouched both for the submission and
+% Camera Ready Copy. Do not include Title and Author information in the pdfinfo section
+\begin{document}
+\begin{frontmatter}
+
+\journal{Data and Information Management}
+
+\title{The Effect of Anthropomorphic Design of Conversational Agents on User Outcomes: A Meta-Analysis of 79 Empirical Studies}
+
+\author[aff1]{Danial Amin\corref{cor1}}
+\ead{danial.amin@uwasa.fi}
+
+\author[aff1]{Joni Salminen}
+\ead{jonisalm@uwasa.fi}
+
+\author[aff1]{Angelica Fabillar}
+\ead{x7340177@student.uwasa.fi}
+
+\author[aff2]{Sercan Şengün}
+\ead{sercan.sengun@ucf.edu}
+
+\author[aff3]{Bernard J. Jansen}
+\ead{jjansen@acm.org}
+
+\cortext[cor1]{Corresponding author}
+
+\address[aff1]{School of Marketing and Communication, University of Vaasa, Vaasa, Finland}
+
+\address[aff2]{University of Central Florida, Orlando, FL, United States}
+
+\address[aff3]{Peking University, Beijing, China}
+
+\begin{abstract}
+Conversational agents are often designed with human-like attributes to improve user outcomes, yet there is a knowledge gap about which anthropomorphic attributes are most effective and which user outcomes they influence. We address this gap by analyzing 583 effects extracted from 79 empirical studies published between 2018 and 2025. Quantitative analysis of 169 calculable effects ($N$ = 21,104) %produced a bias-adjusted Hedges' $g$ of 0.48, indicating 
+indicated a moderate positive effect of anthropomorphic design on user outcomes (bias-adjusted Hedges' $g = 0.48$). Communication style ($g = 1.15$) and personality traits ($g = 1.07$) had the largest attribute-level estimates, indicating that how an agent speaks and presents its personality can substantially impact users’ responses. Representational attributes also had a positive effect on user outcomes; notably, visual appearance was positively associated with trust and credibility, whereas demographic identity had a positive effect on user experience. We also found that anthropomorphic design, in general, is more strongly associated with user experience, trust, and learning than with social perception. We provide actionable guidelines towards the end that designers should prioritize communication style in relation to the demographic and visual attributes for the conversational agents.
+\end{abstract}
+
+\begin{keyword}
+Conversational agents \sep Anthropomorphism \sep Meta-analysis \sep
+User outcomes \sep Human--AI interaction
+\end{keyword}
+
+\end{frontmatter}
+
+
+
+\end{document}
+

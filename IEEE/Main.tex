@@ -1,0 +1,514 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore con-ver-sa-tion-al an-thro-po-mor-phism}
+
+\definecolor{changeblue}{RGB}{0,0,255}
+\newif\ifshowchanges
+% \showchangestrue
+\ifshowchanges
+  \DeclareRobustCommand{\change}[1]{\textcolor{changeblue}{#1}}
+\else
+  \DeclareRobustCommand{\change}[1]{#1}
+\fi
+
+\begin{document}
+
+\title{What Makes Conversational Agents Feel Human? A Meta-Analysis of Anthropomorphic Design Effects}
+
+\author{Anonymous Author(s)%
+\thanks{Manuscript prepared for IEEE journal format.}}
+
+\markboth{IEEE Journal Submission,~2026}{Anonymous Author(s): Anthropomorphic Attributes for Conversational Agents}
+
+\maketitle
+
+\begin{abstract}
+Conversational agents are typically designed with human-like attributes to improve user outcomes, yet the field lacks systematic evidence on which anthropomorphic attributes matter most and for which outcomes. We address this gap through a meta-analysis of 583 effects extracted from 79 predominantly text-centric CA studies (2018--2025). A three-level random-effects model applied to the 169 calculable effects ($N$ = 21,104) yielded a pooled Hedges' $g$ = 0.68 (95\% CI [0.38, 0.98]). Confirmed publication bias warranted trim-and-fill correction, which produced an adjusted $g$ = 0.48. All estimates should be treated as upper bounds. Behavioral attributes, particularly communication style ($g$ = 1.15) and personality traits ($g$ = 1.07), produced the largest effects. Representational attributes including visual appearance and demographic identity produced moderate effects. Effect sizes varied substantially across outcome categories, with UX ($g$ = 0.69), trust ($g$ = 0.65), and learning ($g$ = 0.75) showing moderate-to-large effects and social perception showing more modest returns. These findings provide the field with tentative benchmark effect sizes for anthropomorphic CA design and translate into design guidelines for practitioners.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Conversational agents; Anthropomorphism; Meta-analysis; User Outcomes; Human-AI interaction
+\end{IEEEkeywords}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Conversational agents (CAs), commonly referred to as chatbots, virtual assistants, virtual companions, or embodied agents \cite{klein_effects_2025}, are software systems that interact with users through natural language using text or voice interfaces \cite{diederich_conversational_2019}. Examples include Alexa, ChatGPT, Cortana, and Siri. These systems employ natural language processing (NLP), machine learning (ML), and large language models (LLMs) to understand user inputs and generate responses. CAs serve critical functions in areas such as customer service, healthcare, education, and social companionship \cite{araujo2018living,brandtzaeg2017people}.
+
+%Counterintuitively, human-like CAs may not necessarily be the most effective in `appearing human' to users. 
+%Adding human attributes (e.g., faces, names, demographics) may humanize CAs; however, some studies suggest that users respond more genuinely to how an agent communicates than to how it appears. CA social cues trigger social responses in users \cite{nass1994computers, nass2000machines}, and users' perceived humanness leads to trust and engagement \cite{gunawardena1995social}. These insights indicate that conversational aspects (e.g., tone, politeness, responsiveness) may elicit social reactions beyond visual characteristics of CAs. If anthropomorphism relies more on conversational than visual aspects, then existing CA design may be misaligned with objectives. This conundrum raises a motivational question: \textit{which CA anthropomorphic attributes actually drive user outcomes?}
+
+The design of these CA systems, particularly whether to assign human-like characteristics, referred to as \textit{anthropomorphism}, is a critical decision affecting factors such as user acceptance, system effectiveness \cite{pfeuffer2019anthropomorphic,ashfaq2020deploying}, and engagement \cite{gong_how_2008}. We define anthropomorphism operationally as the intentional assignment of human-like characteristics, such as behavioral or demographic, to a CA, designed to elicit social responses from users \cite{epley2007seeing}. As Chandra et al. \cite{chandra_be_2022} argue, ``the business impact of conversational AI is contingent on customers using and adequately engaging with these tools'' (p. 969). Developments in LLMs exemplify the importance of anthropomorphism for engagement; for instance, OpenAI describes ChatGPT 5.1 as ``warmer'' and ``having more personality'' \cite{hayden_field_openai_2025}, demonstrating focus on anthropomorphic attributes. Given that ChatGPT has more than 900M weekly active users as of December 2025\footnote{\url{https://backlinko.com/chatgpt-stats}}, it is evident that the anthropomorphic design choices in CAs have a global impact on conversational system usage.
+
+\begin{figure*}[htbp]
+    \centering
+    \subfloat[]{%
+    \includegraphics[width=0.28\textwidth]{Figures/12.jpg}
+    \label{fig:ca_nonanthropomorphic}}
+    \hfill
+    \subfloat[]{%
+    \includegraphics[width=0.28\textwidth]{Figures/14.jpg}
+    \label{fig:ca_variable}}
+    \hfill
+    \subfloat[]{%
+    \includegraphics[width=0.28\textwidth]{Figures/13.png}
+    \label{fig:ca_human}}
+    \caption{\textbf{Anthropomorphism in conversational agents.} Examples show (a) a non-anthropomorphic CA and (b) an anthropomorphic CA with variable anthropomorphism and (c) a anthropomorphized CA with a 3D avatar.}
+    \label{fig:CAs}
+\end{figure*}
+
+Anthropomorphism in CAs (see examples in Figure \ref{fig:CAs}) usually involves assigning human characteristics such as names, personality traits, appearances, and conversational styles \cite{epley2007seeing,klein_effects_2025}. Research has expanded rapidly since the introduction of LLMs \cite{chen2024trends}, examining CAs' effects on conversation fluency, user experience (UX), and interaction outcomes. Some research demonstrates that anthropomorphic attributes increase trust through social presence \cite{konya2023anthropomorphism,blut2021understanding,raamkumar2022empathetic}, while other studies identify negative effects, such as human-like characteristics creating unrealistic expectations \cite{crolic2022blame,ciechanowski2019shades,clavel2015sentiment}.
+
+Despite growing interest, a \textit{systematic understanding of which anthropomorphic attributes matter for user outcomes, such as UX, satisfaction, and trust, remains lacking}. We define user outcomes as any measurable user response to CA interactions, including perceptions, attitudes, behaviors, and performance. Studies examine individual characteristics, such as names \cite{go2019humanizing}, gender, communication style \cite{seeger2021texting,firdaus_i_2023}, but findings remain scattered, and people using conversational interfaces lack evidence-based guidance to design anthropomorphically optimal CAs. %For example, trust formation is a primary concern, as users must decide whether to accept CAs \cite{meyer2023leverage,følstad2021chatbots,nordheim2019trust}. 
+Without the synthesis of anthropomorphic CA attributes, implementation methods, and user outcomes, CA developers are inclined to make design choices based on intuition instead of validated research.
+
+Prior meta-analyses %have examined human-like cues in conversational agents. Chaves and Gerosa \cite{chaves2021should} reviewed 56 articles to analyze how social characteristics influence human–chatbot interactions, finding 
+found that certain CA characteristics are domain-dependent (e.g., moral agency, communicability), whereas others apply broadly across contexts (e.g., manners, damage control) \cite{chaves2021should}. Klein \cite{klein_effects_2025} synthesized 142 studies on human-like social cues in text-based conversational agents, reporting a small-to-medium effect ($g$ = 0.36) on social responses. They identified variability across anthropomorphic attributes and outcome measures, though the study focused exclusively on text-based interactions. 
+
+Building on this foundation, we extend the body of knowledge on anthropomorphic design of CAs by examining anthropomorphic attributes across across the CA modalities represented in our corpus, which is predominantly text-centric, distinguishing between behavioral (communication style, personality, responsiveness) and demographic attributes (demographic identity, role, visual appearance). %, and employing hybrid synthesis methods to maximize data utilization.
+To this end, our meta-analysis addresses the following research question: 
+\textit{How do anthropomorphic attributes of conversational agents affect user outcomes?} 
+To address this question, we synthesize empirical findings from 79 articles (2018-2025), organizing results by outcome categories and identifying which specific attributes produce consistent effects. Our analysis focuses on a meta-analysis of 583 effects (N = 21,104). % with qualitative synthesis methods (365 additional effects), achieving 93\% data utilization through vote counting \cite{votecounting}, Fisher's combined probability test, and Stouffer's Z-score methods.
+
+Understanding how anthropomorphic attributes affect user outcomes is essential for CA design. Research reports effects on trust and acceptance \cite{kraus_role_2021,chandra_be_2022}, UX \cite{lieb_student_2024,liu_older_2023}, behavioral patterns \cite{mehra_chatbot_2021,chen_you_2021}, and task performance \cite{zheldibayeva_genai_2025,baihaqi_rapport-driven_2024}. However, findings are scattered. Our synthesis organizes these empirical findings into outcome categories and identifies conditions under which anthropomorphic design produces effects.
+By doing so, the current study makes several contributions to conversational user interface research. First, we derive a behavioral–demographic taxonomy of anthropomorphic attributes through hierarchical agglomerative clustering of co-occurrence patterns across 79 studies. Second, we show that effect sizes differ significantly across attribute subgroups ($Q_{\text{between}}$(3) = 193.45, $p$ $<$ .001), with behavioral ($g$ = 0.75) and representational ($g$ = 0.70) attributes both producing moderate-to-large effects. Third, we compare findings across outcome categories and find the strongest effects for communication style ($g$ = 1.15) and UX ($g$ = 0.69). Fourth, we provide design guidelines for CA developers to design anthropomorphic CAs.
+% These findings suggest that CA developers should prioritize natural communication patterns and personality coherence over demographic or visual cues when designing anthropomorphic CAs.
+
+\section{Related Work}
+
+% --- Section 2.1: Broad IS Context (Preserved your original text) ---
+\subsection{Brief History of Conversational Agents}
+CAs have existed for decades, since at least Weizenbaum's \texttt{ELIZA} in 1966, which simulated a psychotherapist \cite{weizenbaum_elizacomputer_1966}\footnote{Before that, Alan Turing had discussed the prospect of a machine imitating humans in conversations in his seminal article from 1950 \cite{turing_computing_1950}.}. Despite having been studied for decades, only the LLM technology has brought about a decisive breakthrough in the abilities of CAs to carry out conversations with human users. Peter et al. \cite{peter_benefits_2025} use the term ``anthropomorphic conversational agents'' to characterize recent LLMs that, despite lacking genuine social understanding, excel at simulating empathy and persuasion to a degree that renders them nearly indistinguishable from real people. %Now, even though CAs have been studied extensively in fields like HCI and NLP, investigating anthropomorphism or ``human-likeness'' as a means to improve user engagement with CAs deviates from most earlier IS user engagement research, which has largely centered on the functional or instrumental value of information technology \cite{chandra_be_2022}. For this reason, it is worthwhile to discuss the nature of CAs as forms of IS.
+
+Overall, %CAs function as interactive UIs that collect, process, and disseminate information through natural language \cite{nguyen2024conversational,mariani2023artificial,pfeuffer2019anthropomorphic}.
+% Because natural language can be either written or spoken, CAs communicate with users through text, speech, or a combination of both \cite{diederich_conversational_2019}. 
+% Furthermore, 
+CAs can be categorized into (1) text-based CAs (written text only, no embodiment\footnote{Embodiment refers to the physical or visual representation of a CA, such as an avatar or robot body. While embodiment is one possible anthropomorphic attribute, anthropomorphism is a broader concept encompassing any human-like characteristic including name, personality, communication style, and behavior.}), (2) virtual CAs (written and spoken interaction with virtual interactive avatars), (3) speech-based CAs (spoken interaction without embodiment), and (4) physical CAs (spoken interaction with physical embodiment) \cite{diederich_design_2022}. 
+Across these CA types, a shared trait is the reliance on natural language for interaction \cite{diederich_design_2022}. 
+
+Another key trait of CAs is that, unlike navigation-based UIs, CAs adapt to user needs \cite{folstad2017chatbots,jain2018evaluating}. For example, a student can ask a CA for steps to solve a mathematics problem, and the CA will provide them. A CA can take multiple forms, including static or interactive virtual avatars, physical embodiments, or a disembodied form based solely on natural language \cite{diederich_conversational_2019,diederich_design_2022}. These different implementations shape how users perceive CAs \cite{peter_benefits_2025}, while making systems and information more accessible. Peter et al. \cite{peter_benefits_2025} even argue that one of the core objectives of computer science is ``to make computers more accessible and more natural to interact with, \textit{by making computing more human-like}'' (p. 1, emphasis by us). Chaves and Gerosa \cite{chaves2021should} further emphasize the role of interaction design by postulating that ``making a conversational agent acceptable to users is primarily a social, not only technical, problem'' (p. 729). These conceptual underpinnings have prompted researchers to theorize about anthropomorphism in computer systems and CAs, in particular.
+
+% To this end, modern CAs are widely diffused. They integrate both with enterprise and consumer IS, including customer relationship management (CRM) systems and knowledge management platforms \cite{mariani2023artificial}, technical support, customer service, and social media \cite{diederich_design_2022,schuetzler_impact_2020}, among other types of IS. While CAs were historically viewed as passive retrieval tools, modern CAs, enabled by LLMs, not only fetch information but can also interpret it, making them active agents in the information flow from systems to users \cite{allouch2021conversational}. 
+% % --- Added Transition to Anthropomorphism ---
+% However, as CAs take on these active roles, the distinction between ``system'' and ``social actor'' blurs. This shift calls for a deeper understanding of how the design of the CA itself, through its humanization, impacts the interaction between the user and the system.
+
+\subsection{Theories of Anthropomorphism in Software Systems}
+
+%Anthropomorphism, the attribution of human characteristics, emotions, or behaviors to non-human entities, draws on the CASA paradigm, which posits that users unconsciously apply social rules to technology \cite{nass1994computers}. Anthropomorphism is a critical component in CAs, because ``[user] engagement [with CAs] depends, in turn, on conversational AI’s similarity, or likeness to the human beings it is intended to replace'' \cite{chandra_be_2022} (p. 969).
+
+The theoretical foundation for understanding why users respond socially to CAs can be derived from the ``\textbf{C}omputers \textbf{A}re \textbf{S}ocial \textbf{A}ctors'' (CASA) paradigm \cite{nass2000researching}. Introduced by Nass et al. \cite{nass1994computers}, CASA argues that humans apply social rules to computers even when they know they are interacting with machines. The key insight is that social responses to computers ``are automatic and
+unconscious'' (p. 77) \cite{nass1994computers}. When computers display social cues such as language or voice, users automatically apply human interaction behaviors that include, for example, (1) gender stereotyping (e.g., rating female-voiced computers as more knowledgeable about relationships), (2) reciprocity (e.g., feeling obliged to help a computer that provided assistance), and (3) politeness norms (e.g., giving more favorable evaluations when the computer itself asks for feedback) \cite{nass1997machines}. 
+
+A related concept is \textit{social presence}, which refers to ``the degree of salience of the other person in the interaction'' (p. 65) \cite{short1976social}. In the CA context, social presence captures the extent to which users perceive the agent as a real social entity instead of merely a tool \cite{oh2018systematic}. While CASA explains the automatic process of applying social rules, social presence addresses the sense of interacting with another being. Social presence is associated with increased trust and engagement \cite{gunawardena1995social}. Prior research \cite{gambino2020building,koger2023casa} %raises questions about whether CASA effects persist as users become familiar with technology. Gambino et al. \cite{gambino2020building} proposed extending CASA, arguing that users may develop distinct human-media scripts over time. Furthermore, a replication study found that participants no longer responded socially to desktop computers after 30 years of exposure \cite{koger2023casa}. This 
+suggests that CASA effects may wane over time and be strongest for emerging technologies, such as LLM-based CAs. CASA also implies that even minimal anthropomorphic cues can trigger social responses. For example, Araujo \cite{araujo2018living} showed that the simply assigning the CA a name can increase users' perception of the agent's human-likeness. Therefore, the question is not whether to anthropomorphize or not, but \textit{how}.  %, thus motivating RQ1 and RQ2. These aspects have thus far eluded mainstream research in IS; as eloquently put by Peter et al., while much research attention is given to improving LLMs' reasoning capabilities, ``the progress in communicative abilities remains underappreciated'' (p. 1).
+
+% This temporal contingency matters for interpreting our findings.  The studies in our corpus examine LLM-based CAs, for which CASA  effects may be stronger than for legacy systems. Our findings are  therefore consistent with CASA predictions instead of a test of its underlying mechanisms.
+
+Research on embodied and voice-based CAs establishes that anthropomorphic effects extend well beyond what text-centric studies can capture. Coordinated verbal and nonverbal cues, relational consistency across sessions, embodied social signals such as gaze and gesture, and voice paralinguistics each produce effects on social agency, trust, and presence that text-based behavioral attributes alone cannot replicate \cite{cassell2000embodied,bickmore2005relational,kramer2003socially,clark2019makes}.This literature is not represented in our empirical corpus, which is predominantly text-centric. 
+% Thus the design guidelines, each with 5 profile sentences, therefore not be extended to embodied or voice agents without further empirical grounding. 
+
+% --- Section 2.2: Focus on Attributes & Effects (Aligns with RQ1) ---
+
+%\subsection{Different Attributes for Anthropomorphism}
+
+
+
+% --- Section 2.3: Focus on Implementation (Aligns with RQ2) ---
+%\subsection{Technical Implementation and Persona Consistency}
+\subsection{The Empirical Effects of Anthropomorphism on Users}
+%Implementing anthropomorphism in CAs involves decisions spanning three areas: how anthropomorphic attributes are represented, how consistency is maintained, and how the system adapts to users.
+
+% \textit{Anthropomorphic attribute representation} refers to how human-like attributes are encoded in the system. Early approaches used explicit profile descriptions---structured lists of attributes such as hobbies, occupation, and preferences---that condition the CA's responses \cite{zhang2018personalizing}. The PersonaChat dataset exemplifies this approach, providing 1,155 personas with 5 profile sentences each for training dialogue systems. Alternative approaches embed persona implicitly through fine-tuning on character-specific dialogue \cite{shuster2019dialogue} or through prompt engineering with LLMs \cite{jandaghi2023faithful}. The choice between explicit and implicit representation affects both development effort and the degree of control designers have over the CA's expressed identity.
+
+% \textit{Persona consistency} is the ability of a CA to maintain a stable identity without contradicting itself across turns or sessions. This remains a primary technical challenge \cite{song2020generating}. A CA that claims to be a doctor in one turn but discusses its experience as a teacher in another violates consistency and may reduce user trust. Technical solutions include natural language inference models that verify alignment between utterances and persona profiles \cite{welleck2019dialogue}, reinforcement learning approaches that optimize for coherence \cite{song2021bob}, and memory mechanisms that track what the CA has previously stated \cite{xu2022beyond}. Evaluations show that even state-of-the-art LLMs struggle to maintain consistent personas in extended conversations \cite{maharana2024evaluating}, so although the fundamental challenge \cite{turing_computing_1950} of the AI ``remembering'' and recalling parts of the conversation has been resolved to a great extent, CAs can still exhibit traces of this problem.
+
+% \textit{Persona adaptability} concerns whether the CA adjusts its characteristics based on user input or context. Fixed personas maintain the same attributes throughout interaction, while adaptive personas modify their behavior in response to user preferences, emotional state, or conversational history \cite{huang2023personalized}. Adaptive approaches can increase perceived personalization but risk inconsistency if changes are not managed coherently. Memory-augmented architectures address this by maintaining long-term user models that inform persona expression without contradicting core identity attributes \cite{xu2022beyond,zhong_memorybank_2024}.
+
+
+%\subsection{User Outcomes of CA Anthropomorphization}
+Research on anthropomorphic CAs examines various user outcomes, yet these findings remain scattered across studies. Studies report effects on constructs such as trust \cite{nordheim2019trust}, satisfaction \cite{haugeland_understanding_2022}, engagement \cite{mehra_chatbot_2021}, and learning \cite{zheldibayeva_genai_2025}, showing that %, but there is no clear understanding of what types of outcomes anthropomorphization actually affects.
+%Research shows that 
+anthropomorphism affects user outcomes %\cite{pfeuffer2019anthropomorphic,adam2021ai} 
+through perceiving the agent as a ``real'' social entity instead of a ``tool'' \cite{meyer2023leverage,wang2021seeing}. For example, anthropomorphism in customer service CAs increases engagement and purchase intentions \cite{depaula2025anthropomorphism,luo2019frontiers}. Researchers have also found that CAs' anthropomorphism increases perceptions of competence and warmth, which in turn support empathy and increase users' willingness to adopt CAs \cite{kim_what_2024}. Rapp et al. \cite{rapp_human_2021} note that ``[the] perception of humanness may increase the willingness to establish a common ground between the chatbot and the user and to express more sociable desirable traits, as well as intimacy and closeness''.
+
+However, excessive human-likeness can trigger \textit{uncanny valley} effects in which the CA too closely resembles a human, causing feelings of eeriness \cite{mori_bukimi_1970,soni2024chatbot}. Furthermore, mismatches between human-like cues and actual capabilities of a CA lead to expectancy violations that hamper satisfaction more severely than purely functional failures (i.e. the functionality of a system fails) \cite{ischen2024communication,qu2024chatbot}. Other commonly mentioned challenges in CA design include lacking conversational abilities and unappealing appearances \cite{diederich_design_2022}, as well as the risk of manipulation \cite{chaves2021should}.
+
+Overall, the empirical findings on the effects of anthropomorphism are scattered and mixed, such that anthropomorphism improves outcomes in some studies \cite{go2019humanizing} but produces negative effects in others \cite{crolic2022blame}. For example, anthropomorphic design may increase trust \cite{go2019humanizing,konya2023anthropomorphism}, yet decrease compliance when users find personalization intrusive \cite{chen_you_2021}. Some studies report anthropomorphism improving user outcomes, others find no or negative effects. Without systematic analysis of which specific anthropomorphic attributes produce these different outcomes, we cannot determine whether studies genuinely contradict each other or whether different attributes simply affect users in distinct ways.
+
+Previous reviews have examined anthropomorphism's effects on specific outcomes such as trust \cite{bach2024systematic} or have focused on technical implementation \cite{chen2024trends}, but the field is missing the ``bigger picture'' of empirical consequences of the \textit{anthropomorphic design} of CAs. A systematic review by Rapp et al. \cite{rapp_human_2021} identified it being ``evident that literature lacks design related research. There are no studies that seriously tackle [CA] design issues.'' While Klein's \cite{klein_effects_2025} meta-analysis established that human-like social cues in text-based agents produce positive effects, this work did not distinguish between behavioral and demographic attributes, examine multimodal agents, or analyze the relationship between attributes and specific user outcomes. The effects of specific behavioral and demographic attributes on user outcomes within this predominantly text-centric corpus are the subject of this study.
+
+\section{Methodology}
+This meta-analysis examined the impact of anthropomorphic attributes in CAs on user outcomes. We synthesized empirical findings from a systematic literature review \cite{amin2025anthropomorphism} of 79 articles published between 2018 and 2025, employing a two-track approach to maximize data utilization. Of the 583 extracted effects, 169 (30.4\%) contained sufficient statistical information for effect size computation and were analyzed using a random-effects meta-analysis. The remaining 373 effects (69.6\%) reported directional findings and significance indicators but lacked the statistical detail necessary for effect size calculation. Discarding these effects entirely would have excluded the majority of the extracted evidence, so we applied three complementary synthesis methods to incorporate this directional evidence without requiring exact effect size estimates.
+
+\subsection{Systematic Literature Review}
+
+We conducted searches following the PRISMA guidelines \cite{page_prisma_2021} in four academic databases: SCOPUS, Web of Science, IEEE Xplore, and ACM Digital Library. The search string combined CA terminology (``conversational agent*,'' ``chatbot*,'' ``virtual agent*,'' ``dialogue system*'') with anthropomorphism (``anthropomorph*,'' ``human-like,'' ``persona*,'' ``personality,'' ``gender,'' ``avatar''). Keywords were finalised through three pilot searches: initial broad terms were iteratively narrowed based on title-level precision, and anthropomorphism-specific terms were added after the first round retrieved insufficient empirical CA studies. We limited our search to peer-reviewed articles in English published between January 2018 and August 2025, capturing the state-of-the-art of CAs \cite{zhang2018personalizing}. % when neural language models became widespread.
+
+The principal investigator (PI) screened 735 identified articles in two stages. First, the PI reviewed the titles and abstracts using predefined inclusion criteria, yielding 312 potentially relevant articles. Second, the PI reviewed the full texts against the same inclusion criteria, recording exclusion reasons for each rejected article. A random sample of 10\% of full-text decisions was cross-checked by a second author to verify consistency, with disagreements resolved through discussion. Studies were included if they: (1) reported empirical quantitative data; (2) examined user interactions with a CA; (3) manipulated or measured at least one anthropomorphic attribute; and (4) measured a user outcome. Studies were excluded if they: (1) were purely technical without user evaluation; (2) were qualitative-only; (3) were reviews or meta-analyses; or (4) examined physical robots without a conversational interface.
+
+The PI excluded purely technical studies without user evaluation, qualitative-only studies, reviews, and studies of physical robots without conversational interfaces. Qualitative-only studies were excluded as primary sources because they do not report the statistical information necessary for effect size computation.  Implementation quality was not used as an exclusion criterion at the screening stage; rather, quality issues were addressed at the effect extraction stage by removing individual effects with impossible values or insufficient sample sizes (see Section~3.5). No studies were excluded solely on the basis of implementation quality, ensuring that the corpus reflects the full range of empirical work on anthropomorphic CA design. This process yielded 79 empirical studies that comprise our final corpus.
+
+\subsection{Effect Extraction and Coding}
+
+Five trained coders extracted effects from the 79 articles using a standardized protocol (see the online appendix\footnote{\href{https://osf.io/7rj6f/overview?view_only=35b327583fee4222b5b336465107580c}{https://bit.ly/4nn1NhZ}} for details), with 10\% of the articles were double-coded to ensure reliability. Instead of extracting generic study characteristics, we identified and coded individual effects representing relationships between anthropomorphic attributes (as independent variables) and specific user outcomes (as dependent variables) within each study. Inter-coder reliability among five coders for effect extraction was substantial (Fleiss' $\kappa$ = 0.81). Coding was inductive as coders generated categories from the data rather than applying a pre-defined codebook, with the final category scheme emerging through iterative discussion across the coding team. A full mapping of included studies to anthropomorphic attributes, study designs, outcome measures, and main effects is provided in Table~A1 of the online appendix.
+% This granular approach treats each attribute-outcome relationship as an independent observation, recognizing that single studies often examine multiple anthropomorphic attributes and measure various outcomes.
+
+From the 79 articles, we extracted 583 distinct effects. Each effect captured a reported relationship between an anthropomorphic implementation and a user outcome, along with available statistical information. For each effect, coders recorded the specific anthropomorphic attribute manipulated or measured, the outcome variable assessed, the direction of the relationship (positive, negative, or null), and any available statistical information, including means, standard deviations, test statistics, effect sizes, and p-values. This extraction of the effect-level enables more precise analysis than aggregation at the study-level, as it preserves the specific combinations of attributes and results that comprise our research question.
+
+Of the 583 extracted effects, 177 (30.4\%) contained effect size calculations, which are referred to as calculable effects in the remainder of the work. Of these, 8 were removed due to quality issues; specifically, impossible effect size values (e.g., r $>$ 1.0) or sample sizes insufficient for stable estimation (n $<$ 10), leaving 169 calculable effects. The other 406 effects (69.6\%) provided directional information and significance indicators but lacked details on effect sizes. We refer to them as non-calculable effects throughout the remainder of the work. For these, we removed 33 effects due to missing information, leaving 373 non-calculable effects. 
+
+For calculable effects, we employed a three-level random-effects model as the primary analysis and the DerSimonian-Laird two-level model for subgroup comparisons whereas voting methods were applied to non-calculable effects.
+
+\subsection{Categorization of Anthropomorphism}
+
+To investigate which anthropomorphic attributes affect user outcomes, we categorized the attributes implemented across studies. To this end, we employed hierarchical agglomerative clustering (see the online appendix for details). First, we extracted 73 unique attribute types across the 79 studies (see Table \ref{tab:attr-dist} for category distributions; the complete list of all 73 attributes is provided in Table~A2 of the online appendix)
+types across the 79 studies and analyzed their co-occurrence patterns, which attributes researchers implemented together, using Jaccard similarity coefficients with Ward's linkage criterion. %This approach reveals natural groupings based on empirical implementation patterns instead of theoretical assumptions. 
+Analysis of the resulting hierarchical agglomerative clustering identified two primary clusters at the optimal cut-off point as behavioral attributes that manifest through agent actions during interaction (communication style, personality traits, actions, emotional expressions) and demographic attributes representing relatively fixed aspects of CAs identity (demographic identity, roles, names, visual representations, voice characteristics). The two-cluster solution was selected based on the largest within-cluster Jaccard similarity drop in the dendrogram; a three-cluster solution was also examined but produced one cluster ($n$ = 3) too small for meaningful analysis. Chi-square test confirmed that behavioral and demographic attributes have different prevalence rates across studies ($\chi^2$ = 8.47, p = .004), with behavioral attributes appearing in 65.5\% of studies compared to 38.8\% for demographic attributes. Detailed clustering methodology and complete attribute listings are available in the online supplementary material.
+
+% \begin{table}[t]
+% \centering
+% \caption{\textbf{Distribution of anthropomorphic attribute categories in 79 anthropomorphization studies.} Behavioral anthropomorphization is more frequent. }
+% \footnotesize
+% \label{tab:attr-dist}
+% \begin{tabularx}{\textwidth}{@{}llccX@{}}
+% \toprule
+% \textbf{Main category} & \textbf{Sub category} & \textbf{n} & \textbf{\%} & \textbf{Attributes Applied} \\
+% \midrule
+% \multirow{3}{*}{\shortstack[l]{Behavioral\\attributes\\(n = 76, 62.8\%)}} & Communication style & 29 & 24.0 & conversational (n = 8), polite (n = 2), professional (n = 2) \\
+% & Personality traits & 28 & 23.1 & empathetic (n = 4), helpful (n = 3), supportive (n = 3) \\
+% & Actions & 19 & 15.7 & proactive (n = 2), initiative-taking (n = 2), engaging \\
+% \midrule
+% \multirow{3}{*}{\shortstack[l]{Demographics\\(n = 45, 37.2\%)}} & Demographic identity & 22 & 18.2 & gender (n = 11), age (n = 5), cultural background \\
+% & Role/occupation & 14 & 11.6 & expert (n = 1), personal assistant (n = 1), tutor (n = 1) \\
+% & Visual/physical appearance & 9 & 7.4 & character (n = 1), facial covering (n = 1), embodiment \\
+% \bottomrule
+% \end{tabularx}
+% \end{table}
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Distribution of anthropomorphic attribute categories in 79 anthropomorphization studies.} Behavioral anthropomorphization is more frequent.}
+\footnotesize
+\label{tab:attr-dist}
+\begin{tabular}{@{}p{2cm}p{2.4cm}rr@{}}
+\toprule
+\textbf{Category} & \textbf{Subcategory} & \textbf{n} & \textbf{\%} \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{Behavioral\\(n=76,\\62.8\%)}} 
+& Communication style & 29 & 24.0 \\
+& Personality & 28 & 23.1 \\
+& Actions & 19 & 15.7 \\
+\midrule
+\multirow{3}{*}{\shortstack[l]{Demographic\\(n=45,\\37.2\%)}} 
+& Demographic identity & 22 & 18.2 \\
+& Role/occupation & 14 & 11.6 \\
+& Visual/appearance & 9 & 7.4 \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\par\noindent\scriptsize
+\textbf{Attributes Applied:} 
+\textit{Behavioral}---Communication\ style: conversational (8), polite (2), professional (2); 
+Personality: empathetic (4), helpful (3), supportive (3); 
+Actions: proactive (2), initiative-taking (2), engaging. 
+\textit{Demographics}---Demographic\ identity: gender (11), age (5), cultural background; 
+Role/occupation: expert (1), personal assistant (1), tutor (1); 
+Visual/appearance: character (1), facial covering (1), embodiment.
+\end{table}
+
+\subsection{Categorization of Outcome Variables}
+
+The 583 effects represented relationships with diverse outcome measures ranging from subjective satisfaction to objective performance metrics. Two coders jointly conducted open coding to categorize measures based on their underlying constructs. This process involved assigning umbrella labels to specific variables (e.g., trust, competency, and reliability are combined under the category of `trust and credibility'). This was done collaboratively, with one coder suggesting a label and another coder verifying its logical compatibility with the specific variable. %, achieving 94\% agreement. 
+Here, participant demographics reported in included studies, where available, including age, gender, and prior technology experience, were treated as moderators within the seventh category.
+This process resulted in seven outcome categories (see Table \ref{tab:categories}). We used these categories to analyze whether anthropomorphic attributes produce consistent effects or particularly influence specific outcome types. %(1) \textit{UX and satisfaction} (measures of satisfaction, usability, enjoyment, interaction quality); (2) \textit{trust and credibility} (trust formation, reliability, willingness to rely on information); (3) \textit{learning and performance} (task accuracy, knowledge acquisition, problem-solving); (4) \textit{social perception and anthropomorphism} (perceived humanness, social presence, relationship quality); (5) \textit{behavioral and interaction patterns} (engagement duration, message frequency, compliance); (6) \textit{technology acceptance and adoption intentions} (behavioral intentions, adoption decisions); and (7) \textit{individual differences as moderators} (examining how user characteristics moderate effects). We used these categories to analyze whether anthropomorphic attributes produce consistent effects or particularly influence specific outcome types.
+
+\begin{table}[h]
+\caption{Categories of user outcome variables.}
+\label{tab:categories}
+\footnotesize
+\begin{tabular}{@{}p{0.35\columnwidth}p{0.58\columnwidth}@{}}
+\toprule
+\textbf{Category} & \textbf{Variables contained} \\
+\midrule
+UX and satisfaction & Satisfaction, usability, enjoyment, interaction quality \\
+\addlinespace
+Trust and credibility & Trust formation, reliability, willingness to rely on information \\
+\addlinespace
+Learning and performance & Task accuracy, knowledge acquisition, problem-solving \\
+\addlinespace
+Social perception and anthropomorphism & Perceived humanness, social presence, relationship quality \\
+\addlinespace
+Behavioral and interaction patterns & Engagement duration, message frequency, compliance \\
+\addlinespace
+Technology acceptance and adoption intentions & Behavioral intentions, adoption decisions \\
+\addlinespace
+Individual differences as moderators & User characteristics \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Effect Size and Meta-Analytic Procedures}
+
+To synthesize effects quantitatively, we converted diverse statistical metrics into a common metric, Hedges' g with small-sample correction. Hedges' $g$ effect size follows the interpretation used in Cohen's \cite{cohen2013statistical} guidelines, classifying the absolute values $\leq0.2$ as small, $>0.2$ to $\leq0.5$ as medium, $>0.5$ to $\leq0.8$ as large, and $>0.8$ as very large effects. The 177 effects with calculable statistics reported various formats: eta-squared (34.5\%), Pearson's r (16.9\%), Cohen's $d$ (15.3\%), F-statistics (9.0\%), Spearman's $\rho$ (6.8\%), chi-square (6.8\%), t-statistics (4.0\%), odds ratios (2.3\%), and other metrics (4.4\%). We applied established conversion formulas, carefully preserving effect directions. After data quality checks, removing effects with impossible values (e.g., standardized statistics outside feasible ranges) or sample sizes below n = 10, following established meta-analytic guidance \cite{borenstein2010basic}, 169 effects from 23 studies ($N$ = 21,104 participants) were included in the meta-analysis.
+
+We employed a three-level random-effects model \cite{vanden2013three} as the primary analysis, partitioning variance into within-study (Level 2) and between-study (Level 3) components via restricted maximum likelihood (REML) estimation. This model accounts for the nested structure of multiple effects within studies, which is appropriate given a mean of 7.3 effects per article. The DerSimonian-Laird two-level model \cite{dersimonian1986meta} was retained for subgroup analyses and as a comparison estimate. Heterogeneity was assessed using $Q$-statistics, $I^2$, and 95\% prediction intervals.
+
+To examine whether attribute type and outcome category moderated effect sizes, we conducted subgroup analyses partitioning $Q_{\text{total}}$ into $Q_{\text{between}}$ and $Q_{\text{within}}$, and formal weighted least-squares meta-regression testing each moderator with an omnibus $Q_{\text{model}}$ statistic and $R^2$ analog indicating variance explained.
+Finally, publication bias was assessed using Egger's regression test \cite{egger1997bias} and Duval and Tweedie's iterative trim-and-fill procedure \cite{duval2000trim}, which estimates and imputes missing studies to produce a bias-adjusted pooled effect. Fail-safe $N$ \cite{rosenthal1979file} is also reported for comparability with prior meta-analyses, though trim-and-fill is the primary correction given the well-documented limitations of fail-safe $N$ under high heterogeneity \cite{page2024missingevidence}.
+
+\subsection{Methods for Non-Calculable Effects}
+
+The 406 effects that lack calculable effect sizes still provided directional and significance information. To maximize data utilization and strengthen our answer to the research question, we used three complementary synthesis methods that incorporate this evidence without requiring exact effect-size estimates.
+
+First, we used \textit{vote counting} to categorize each effect as positive, negative, or null based on reported findings. We then tested whether positive effects occurred more frequently than expected by chance using \textit{binomial tests}. If anthropomorphic attributes consistently improve user outcomes, positive effects should substantially outweigh adverse effects. This method provides evidence on the overall effect direction across the entire dataset, including studies with insufficient statistics for meta-analysis. 
+
+Second, for the 269 effects reporting significance tests, we used \textit{Fisher's combined probability test} \cite{fisher1932statistical} on the aggregated p-values using the formula $\chi^2 = -2\sum_{i=1}^{k} \ln(p_i)$ with df = 2k. When exact p-values were not available, we substituted p = 0.025 for effects reported as significant (p $<$ 0.05) and p = 0.50 for non-significant effects. Although this substitution introduces uncertainty, it allows the inclusion of studies lacking precise p-values, thus testing the overall pattern of statistical significance. % deviates from chance. %, providing independent confirmation of the results of quantitative meta-analysis.
+
+Third, we used Stouffer's Z-score method \cite{whitlock2005combining} to combine standardized effect directions using $Z_{combined} = \frac{\sum_{i=1}^{k} Z_i}{\sqrt{k}}$, weighting all studies equally while incorporating direction. This approach leverages significance and direction information when exact magnitudes are not available \cite{whitlock2005combining}.
+We applied all three methods to behavioral versus demographic attributes, and for each outcome category, we achieved a comprehensive synthesis that addressed our research question across multiple types of evidence using both  %The convergence or divergence of findings across quantitative meta-analysis, vote counting, Fisher's test, and Stouffer's Z-score reveals the robustness of conclusions. 
+non-calculable (n = 373) and calculable effects (n = 169), making a total of 542 of 583 recorded effects (93.0\% data utilization). 
+
+\section{Results}
+
+Our research question asks how anthropomorphic attributes of CAs affect user outcomes. We present findings progressing from overall effects to attribute-specific patterns, revealing which design attributes produce strongest outcomes through quantitative meta-analysis of 169 effects, a synthesis of 373 directional effects, and triangulation across methods.
+
+\subsection{Overall Effects}
+
+The three-level REML model, which partitions variance into within-study ($\hat{\sigma}^2_v$ = 0.695) and between-study ($\hat{\tau}^2$ = 0.356) components, yielded a pooled Hedges' $g$ = 0.68 (95\% CI [0.38, 0.98], $p$ $<$ .001) which is the primary estimate. The two-level DerSimonian-Laird model yielded $g$ = 0.73 (95\% CI [0.59, 0.87]). This two-level estimate is inflated by effect dependence and should not be treated as the benchmark in isolation. Heterogeneity was considerable ($I^2$ = 90.4\% total, with 59.7\% within-study and 30.6\% between-study). The 95\% prediction interval [$-$0.97, 2.43] indicates that a new study could produce an effect ranging from negligible negative to large positive, confirming that the grand mean does not represent a reliable benchmark for any individual context. This variability motivated our subsequent analyses examining which specific attributes and outcomes drive these effects.
+
+Including multiple effects from the same study ($M$ = 7.3 effects per article) introduces dependence. A one-effect-per-study sensitivity analysis (averaging effects within each study) yielded $g$ = 0.64 (95\% CI [0.36, 0.91]), a 14.8\% reduction relative to the two-level estimate. Both the three-level estimate and the one-per-study estimate are reported alongside the two-level estimate throughout. All three indicate moderate positive effects with overlapping confidence intervals, confirming the direction and practical significance of the finding.
+
+\subsection{Behavioral and Demographic Attributes} \label{sec:beh}
+
+Effect sizes differed significantly across attribute subgroups ($Q_{\text{between}}$(3) = 193.45, $p$ $<$ .001; see Figure \ref{fig:attributes}). Behavioral attributes, including polite versus impolite language, social-oriented versus task-oriented voice feedback, proactive dialogue actions, and repair strategies, produced $g$ = 0.75 (95\% CI [0.57, 0.94], $k$ = 89). Representational attributes such as voice, gender, assigned demographic identity, visual avatars, and human names produced $g$ = 0.70 (95\% CI [0.33, 1.06], $k$ = 42).\footnote{These categories comprise 131 of 169 effects. The remaining 38 examined contextual factors ($k$ = 26) and user moderators ($k$ = 12), analyzed separately.} The magnitude difference between behavioral and representational attributes is small (0.05), and formal meta-regression found no significant difference between attribute types ($Q_{\text{model}}$(3) = 0.61, $p$ = .894). Practitioners should not deprioritise representational design solely on the basis of this comparison.
+
+Within behavioral attributes, communication style produced the largest effects, $g$ = 1.15, 95\% CI [0.72, 1.59], $k$ = 25. CAs employing natural conversational patterns, contextually-appropriate formality levels (formal versus informal language), and adaptive politeness strategies (polite versus non-polite phrasing) generated effects exceeding one standard deviation. Personality traits produced the 
+second largest effects, $g$ = 1.07, 95\% CI [0.54, 1.59], $k$ = 19, indicating that personality traits (i.e., extraversion, agreeableness, and openness) improve user outcomes.
+
+Among representational attributes, visual appearance, $g$ = 0.82, 95\% CI [0.19, 1.45], $k$ = 23, produced stronger effects than demographic identity assignments, $g$ = 0.52, 95\% CI [0.27, 0.77], $k$ = 15. We further analyzed that voice gender (male versus female) showed minimal effects (mean $g$ = 0.26, $k$ = 5), while language status (low-status versus high-status) produced larger effects (mean $g$ = 1.21, $k$ = 5). Both estimates rest on five effects and should be treated as preliminary.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figures/figure2a_subcategories.png}
+    \caption{Effect sizes for behavioral and demographic attributes 
+    for anthropomorphism.}
+    \label{fig:attributes}
+\end{figure}
+
+\subsection{Effects by Outcome Type} \label{sec:out}
+
+Anthropomorphic attributes affected outcomes differently across measurements. The analysis across outcome categories showed systematic variation ($Q_{\text{between}}$(6) = 169.80, $p$ $<$ .001), indicating that different attributes have different effect sizes.
+
+UX outcomes showed large effects ($g$ = 0.69, 95\% CI [0.50, 0.89], $k$ = 73). UX outcomes were measured most frequently in research. Perceived usefulness showed moderate-to-large effects ($g$ = 0.84, 95\% CI [0.28, 1.39], $k$ = 11), while perceived ease of use showed larger effects ($g$ = 1.34, 95\% CI [0.42, 2.26], $k$ = 7). For designers prioritizing user satisfaction and usability, anthropomorphic attributes offer meaningful improvements across multiple experiential dimensions.
+
+Social perception outcomes, measuring perceived humanness, social presence, and relationship quality, showed moderate effects ($g$ = 0.43, 95\% CI [0.14, 0.71], $k$ = 24). Social presence specifically showed a very large point estimate ($g$ = 2.04, 95\% CI [1.00, 3.08], $k$ = 4). However, this estimate rests on four effects and should be treated as exploratory pending replication. It is not included in design guidelines.
+
+Trust and credibility outcomes demonstrated moderate-to-large effects ($g$ = 0.65, 95\% CI [0.44, 0.86], $k$ = 24). Trust specifically produced a moderate effect ($g$ = 0.59, 95\% CI [0.20, 0.98], $k$ = 11), while reliability perceptions showed larger effect sizes ($g$ = 0.93, 95\% CI [0.57, 1.29], $k$ = 4). These results suggest that anthropomorphic design can improve user confidence in the system's credibility, addressing concerns about trust establishment in CAs from prior research \cite{ng2025trust}.
+
+Learning and performance outcomes showed moderate effects ($g$ = 0.75, 95\% CI [0.16, 1.34], $k$ = 11), with achieved performance demonstrating a large effect ($g$ = 1.00, $k$ = 3). These results suggest that anthropomorphism extends beyond subjective perceptions to influence objective task outcomes, indicating value for educational and task-support applications.
+
+For other outcomes, effects were relatively smaller. Technology acceptance showed small-to-moderate effects ($g$ = 0.71, 95\% CI [0.18, 1.25], $k$ = 5), while behavioral and interaction patterns showed moderate effects ($g$ = 0.67, 95\% CI [0.31, 1.03], $k$ = 13). This pattern suggests that while anthropomorphism shapes user outcomes, it influences actual usage behaviors more modestly, likely because adoption decisions depend on multiple factors beyond agent design.
+
+Finally, individual differences as moderators showed very large effects ($g$ = 1.14, 95\% CI [0.65, 1.62], $k$ = 19). This estimate exceeds 0.80 and is classified as very large by the study's own benchmarks \cite{cohen2013statistical}, indicating that user characteristics substantially shape the impact of anthropomorphic design.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figures/figure3_outcome_categories.pdf}
+    \caption{User outcomes for the anthropomorphic attributes.}
+    \label{fig:outcomes}
+\end{figure}
+
+\subsection{Attribute-Outcome Specificity}
+
+While behavioral attributes generally outperform demographic attributes, effect sizes vary substantially across outcomes. We analyzed which anthropomorphic attributes produce the strongest effects for which user outcomes (see Table \ref{tab:meta_matrix}). Estimates based on $k$ $<$ 5 are flagged as exploratory and excluded from design guidelines.
+
+\subsubsection{Communication Style Improves UX}\label{sec:comm}
+
+Communication style attributes indicated strong effectiveness for UX outcomes ($g$ = 1.73, 95\% CI [1.11, 2.35], $k$ = 13), nearly double the effect observed for other attribute types. Attributes like politeness calibration, formality adaptation, and natural phrasing produce large effects when measuring satisfaction, usability, and enjoyment. Among the 13 effects in this category, 10 were significant (76.9\%).
+
+For social perception outcomes, communication style again showed large effects ($g$ = 1.30, 95\% CI [0.58, 2.02], $k$ = 6), though with greater variability. Users perceive CAs employing sophisticated communication strategies as more human-like and socially present. The effect of communication style on behavioral patterns ($g$ = 1.27, 95\% CI [$-$0.40, 2.94], $k$ = 3) is exploratory and is not included in design guidelines.
+
+\subsubsection{Visual Appearance Shows Outcome-Specific Patterns}
+
+The visual appearance attributes showed a ubiquitous outcome dependence. For trust and credibility, visual attributes produced moderate-to-large effects ($g$ = 0.63, 95\% CI [0.24, 1.02], $k$ = 5), suggesting that professional avatars or appropriate visual design meaningfully influence perceived trustworthiness. However, for UX outcomes, identical visual attributes showed much smaller effects ($g$ = 0.36, 95\% CI [$-$0.01, 0.73], $k$ = 12), with only 3 of the 12 effects reaching significance (25\%), indicating that visual design alone rarely improves satisfaction or usability. The estimate for visual appearance as a moderator of other attribute effects ($g$ = 3.14, 95\% CI [0.59, 5.69], $k$ = 3) is exploratory and is not included in design guidelines.
+
+\subsubsection{Demographic Identity and Learning Outcomes}
+
+Demographic attributes (assigned age, gender, ethnicity, or cultural identity) showed moderate effects for UX ($g$ = 0.65, 95\% CI [0.24, 1.06], $k$ = 8), with 3 of 8 effects significant (37.5\%). Users appreciate demographic cues in some contexts but not consistently enough to justify prioritizing them in general-purpose conversational interfaces. The estimate for demographic attributes on learning ($g$ = 0.98, 95\% CI [0.50, 1.46], $k$ = 3) is exploratory and is not included in design guidelines.
+
+\subsubsection{Actions Work Across Contexts}
+
+Action attributes (including proactivity, repair strategies, and interaction mechanisms) showed consistent moderate effects across diverse outcomes. For trust ($g$ = 0.30, 95\% CI [$-$0.10, 0.69], $k$ = 11), all 11 effects were significant (100\%), and for behavioral patterns ($g$ = 0.41, 95\% CI [$-$0.08, 0.90], $k$ = 7), all 7 effects were significant (100\%). While effect magnitudes remained moderate, the consistent significance rate across outcome categories indicates that action attributes reliably improve user perceptions. The estimate for actions on learning ($g$ = 0.87, 95\% CI [0.23, 1.52], $k$ = 3) is exploratory.
+
+\subsubsection{Personality Traits Show Dual Effectiveness}\label{sec:person}
+
+Personality trait implementations produced moderate-to-large effects for UX ($g$ = 0.62, 95\% CI [0.29, 0.94], $k$ = 10), with 4 of 10 effects significant (40\%). This suggests high variability that may reflect implementation differences, so that consistent personality expression across interactions produces strong effects, while superficial or inconsistent trait displays fail.
+
+% Column types (put in preamble)
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{table*}[htbp]
+\centering
+\caption{Meta-Analytic Effects of Anthropomorphic Attributes on User 
+Outcomes. Hedges' \textit{g} values with significance markers 
+(*** \textit{p} $<$ .001, ** \textit{p} $<$ .01, * \textit{p} $<$ .05). 
+Cells marked $\dagger$ are based on $k$ $<$ 5 and are exploratory.}
+\label{tab:meta_matrix}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.05}
+
+\begin{tabular}{
+L{0.245\textwidth}|
+C{0.135\textwidth}
+C{0.125\textwidth}
+C{0.095\textwidth}
+C{0.095\textwidth}
+C{0.135\textwidth}
+C{0.115\textwidth}
+}
+\hline
+\textbf{Outcome} &
+\multicolumn{3}{c}{\textbf{Behavioral}} &
+\multicolumn{3}{c}{\textbf{Demographic}} \\
+\cline{2-7}
+&
+{\small Communication Styles} &
+{\small Personality Traits} &
+{\small Actions} &
+{\small Identity} &
+{\small Visual Representation} &
+{\small Role \& Occupation} \\
+\hline
+
+UX and Satisfaction
+ & {\cellcolor{green!20}1.73***} & {\cellcolor{yellow!20}0.62***} 
+ & {\cellcolor{orange!20}0.35}
+ & {\cellcolor{yellow!20}0.65**} & {\cellcolor{orange!20}0.36} & --- \\
+
+Trust and Credibility
+ & --- & --- & {\cellcolor{orange!20}0.30}
+ & --- & {\cellcolor{yellow!20}0.63**} & --- \\
+
+Learning and Performance Outcomes
+ & --- & --- & {\cellcolor{green!20}0.87$\dagger$**}
+ & {\cellcolor{green!20}0.98$\dagger$***} & --- & --- \\
+
+Social Perception and Anthropomorphism
+ & {\cellcolor{green!20}1.30***} & --- & {\cellcolor{red!20}0.08}
+ & --- & --- & {\cellcolor{orange!20}0.28***} \\
+
+Behavioral and Interaction Patterns
+ & {\cellcolor{green!20}1.27$\dagger$} & --- & {\cellcolor{orange!20}0.41}
+ & --- & --- & --- \\
+
+Individual Differences as Moderators
+ & --- & {\cellcolor{green!20}1.40} & {\cellcolor{red!20}0.19}
+ & --- & {\cellcolor{green!20}3.14$\dagger$*} & --- \\
+\hline
+\end{tabular}
+\end{table*}
+
+\subsection{Triangulation from Multiple Syntheses} \label{sec:triang}
+
+Three complementary synthesis methods validated the quantitative findings using the 373 non-calculable effects. Vote counting showed that 84.2\% of the directional effects were positive, exceeding chance expectation, $p$ $<$ .001 (binomial test). Fisher's combined probability test for 269 effects indicated that the pattern of statistical significance differs from chance, $\chi^2$(2$\times$269) = 1115.85, $p$ $<$ .001. Stouffer's Z-score method indicated predominantly positive effects, $Z$(269) = 8.84, $p$ $<$ .001. These values (0.025 for significant, 0.50 for non-significant) represent midpoints between typical thresholds and extremes. Sensitivity analyses using alternative substitutions (0.01--0.03 for significant, 0.40--0.60 for non-significant) yielded identical conclusions (all $p$ $<$ .001).
+
+All three methods detected significant effects across all seven outcome categories (all $p$-values $<$ .01) and for both attribute types, with behavioral attributes consistently showing stronger evidence. This convergence strengthens confidence that the findings reflect robust patterns rather than artifacts of a single analytical approach.
+
+The analysis of implementation patterns across the 79-article corpus revealed that research practice aligns with the effectiveness findings. Behavioral attributes dominate design choices: communication style appeared in 50.0\% of studies and personality traits in 48.3\%, compared to demographic attributes (37.9\%), assigned roles (24.1\%), and visual appearance (15.5\%). Overall, behavioral attributes appeared significantly more frequently than demographic attributes (77.6\% versus 41.4\%), $z$ = 3.97, $p$ $<$ .001, Cohen's $h$ = 0.76.
+
+Publication bias assessment confirmed significant funnel plot asymmetry (Egger's intercept = 1.72, $SE$ = 0.04, $t$(167) = 40.23, $p$ $<$ .001). Duval and Tweedie's trim-and-fill procedure estimated 23 missing studies and produced a bias-adjusted estimate of $g$ = 0.48 (95\% CI [0.33, 0.63]), a 34\% reduction from the unadjusted two-level estimate. Although the fail-safe $N$ (620) exceeded Rosenthal's criterion of 125 \cite{rosenthal1979file}, this result should be interpreted cautiously given the high heterogeneity and confirmed funnel plot asymmetry. We therefore treat the trim-and-fill estimate as a more conservative approximation of the effect size, while recognizing that small-study effects and selective reporting may have inflated the unadjusted estimate.
+
+Our synthesis of 542 effects from 79 studies indicates that anthropomorphic attributes consistently produce positive effects, with effectiveness depending on how these are implemented. The primary three-level estimate is $g$ = 0.68 and the bias-adjusted trim-and-fill estimate is $g$ = 0.48. Communication style ($g$ = 1.15, $k$ = 25) and personality traits ($g$ = 1.07, $k$ = 19) show the largest reliable effects. UX ($g$ = 0.69, $k$ = 73) and trust ($g$ = 0.65, $k$ = 24) show moderate effects. Social perception ($g$ = 0.43, $k$ = 24) is the weakest outcome category. All estimates should be treated as upper bounds given confirmed publication bias.
+
+\section{Discussion}
+
+\subsection{Theoretical Implications}
+
+This study contributes to CA anthropomorphism research by identifying which specific attributes matter most, for which outcomes, and to what degree. Our findings are consistent with the CASA framework \cite{nass1994computers}, which predicts that social cues in computer interfaces trigger automatic social responses in users. Both behavioral and representational anthropomorphic attributes produced positive effects in all synthesis methods. This pattern aligns with CASA's core claim that minimal human-like cues are sufficient to elicit social responses, a claim that appears to hold even for LLM-based CAs where the conversational quality of those cues is substantially higher than in legacy systems.
+
+An important qualification applies. Koger et al.\ \cite{koger2023casa} found that users no longer responded socially to desktop computers after extended exposure, raising the possibility that CASA effects are historically contingent and strongest for emerging technologies. The studies in this corpus predominantly examine LLM-based CAs at a period when users are still forming interaction scripts with these systems. Whether the effects documented here persist as LLM-based CAs become normalised remains an open empirical question. Our findings are consistent with CASA predictions but do not test its mechanisms or their durability.
+
+Within these categories, heterogeneity in effectiveness is substantial. Communication style showed the strongest effects among behavioral attributes, while visual appearance produced larger effects than demographic identity assignments among representational attributes. These differences indicate that implementation choices within anthropomorphic design influence outcomes as much as the broad behavioral-versus-representational distinction. The high within-study heterogeneity, which exceeds between-study heterogeneity in the three-level decomposition, confirms that the same study can produce very different effects depending on which attribute-outcome combination is examined. Possible explanations for this variability include implementation quality, interaction duration, task context, and user characteristics, none of which were analyzable as moderators in the current dataset.
+
+This study's primary theoretical contribution is quantifying these effects and identifying which specific anthropomorphic attributes produce the strongest outcomes. Communication style and coherent personality expression emerge as particularly productive design targets. These results support greater emphasis on how the agent continuously acts over what the agent appears to be, though the data do not support dismissing representational design entirely. Representational attributes produced moderate-to-large effects in their own right, and the behavioral-representational magnitude difference did not reach significance in formal moderation testing.
+
+Prior meta-analytic work on anthropomorphism in CAs has established that human-like social cues produce positive effects on user outcomes \cite{klein_effects_2025,chaves2021should}. The present study extends this line of work by distinguishing behavioral from representational attributes, mapping effects to specific outcome categories, and applying a multilevel model that accounts for the nested structure of effects within studies. These methodological additions allow more precise guidance about which attributes to prioritise for which design goals, moving beyond the aggregate estimate that prior syntheses have reported.
+
+Beyond identifying which attributes matter, this study provides tentative benchmark effect sizes for anthropomorphic CA design research. Individual effect sizes in the corpus ranged from small negative to very large positive values ($M$ = 0.79, $Mdn$ = 0.53, $SD$ = 1.20, range = $-$1.39 to 7.09). These descriptives characterise the realistic distribution of effects that empirical studies in this area produce, including the long right tail driven by communication style and personality implementations. Researchers designing anthropomorphic CA studies can use these values as tentative benchmarks for power analysis and effect size expectations, treating the median as the conservative planning estimate and the mean as the optimistic upper bound. The field has lacked this kind of distributional reference point, and its absence has made it difficult to evaluate whether new empirical findings fall within, above, or below the range of what prior work has observed.
+
+\subsection{Practical Implications}
+
+Based on our findings, we propose five design guidelines (DGs) for anthropomorphism in CAs. Each guideline identifies the sub-theme and the evidence quality. Guidelines are grounded in reliable estimates only. Estimates based on fewer than five effects are noted as exploratory and excluded from prescriptive recommendations.
+
+\textbf{DG1: Prioritize communication style} (Section \ref{sec:beh}). Communication style is the single most effective anthropomorphic attribute in the corpus, producing large effects on both UX and social perception. Designers should invest in natural language generation, formality adaptation, and politeness calibration. CAs that employ contextually appropriate language and adaptive tone produce substantially better outcomes than those relying on uniform or scripted communication. This guideline rests on a reliable estimate based on twenty-five effects.
+
+\textbf{DG2: Implement coherent personality} (Section \ref{sec:person}). Personality traits produce large effects on user outcomes, particularly for UX. Coherent personality expression, meaning consistent behavioral patterns in every response, matters more than the specific traits chosen. An agreeable CA should prioritize cooperative phrasing throughout. An extroverted CA should consistently initiate and sustain engagement. Inconsistent personality expression breaks the social contract and is likely the reason that a significant proportion of effects in this category did not reach significance. This guideline rests on a reliable estimate based on nineteen effects.
+
+\textbf{DG3: Build proactive responsiveness} (Section \ref{sec:beh}). Behavioral pattern attributes, including proactive dialogue actions, intelligent turn-taking, and repair strategies, produce consistent moderate effects in diverse outcome categories. Every effect examined for trust and behavioral patterns outcomes reached significance, indicating reliable returns despite moderate magnitudes. Designers should implement CAs that anticipate user needs without seeming intrusive and respond appropriately when misunderstandings occur. This guideline rests on a reliable estimate based on forty-five effects.
+
+\textbf{DG4: Match anthropomorphic attributes with intended outcomes} (Section \ref{sec:out}). Attribute selection should follow the intended outcome. Communication style produces its largest reliable effects on UX and social perception, making it the priority for service and companionship interfaces. Visual appearance influences trust and credibility more than UX, making it more valuable in contexts where perceived trustworthiness matters. Demographic identity produces moderate effects on UX and should be applied when user-agent demographic alignment is contextually relevant. 
+% Exploratory estimates, including those for demographic identity on learning outcomes and visual appearance as a moderator, are not included in this guidance.
+
+\textbf{DG5: Manage expectations for behavioral and adoption outcomes} (Section \ref{sec:out}). Anthropomorphism produces its strongest effects on perceptual outcomes such as UX and social presence. Effects on adoption intentions and observable behavioral patterns are more modest. A CA that communicates warmly but fails at core tasks will not overcome adoption barriers through persona alone. Designers are encouraged to treat anthropomorphic design as a complement to functional quality and to communicate realistic expectations about its contribution to adoption metrics.
+
+\subsection{Limitations and Future Directions}
+
+Several limitations constrain the interpretation of these findings.
+
+First, the corpus is predominantly text-centric. The search strategy retrieved fewer voice and embodied agent studies than the literature contains, and the design guidelines derived here should not be extended to those modalities without further empirical grounding. Behavioral attributes such as prosody, gaze, and gesture, which are central to embodied and voice CA design, are absent from most studies in this corpus \cite{cassell2000embodied,bickmore2005relational}.
+
+Second, effect estimates are upwardly biased. Confirmed publication bias means the corpus over-represents studies with larger effects. All estimates in this study should be treated as upper bounds. Trim-and-fill correction substantially reduced the pooled estimate, and the conservative one-per-study specification produced a notably lower value than the full-dataset two-level estimate. The direction of the finding, that anthropomorphic attributes consistently improve user outcomes, is supported in all methods, but the magnitude should be interpreted with caution.
+
+Third, heterogeneity is considerable. The prediction interval is wide, indicating that a new study could produce an effect ranging from negligible negative to large positive. The grand mean does not represent a reliable benchmark for any individual context. The three-level model reveals that much of this variability arises from within-study differences, meaning different attribute-outcome combinations in the same study produce very different results.
+
+Fourth, the corpus spans both pre-LLM and LLM-based studies. Whether effect sizes differ systematically between these periods cannot be examined cleanly, as study reporting rarely specifies whether the underlying CA uses a large language model. Future meta-analyses should code LLM use as a categorical moderator, given that LLM-based CAs may produce qualitatively different anthropomorphic effects through superior language fluency and contextual adaptation compared to rule-based predecessors \cite{amin2024chatgpt}.
+
+Fifth, whether behavioral and representational attributes interact remains unexamined. Whether communication style effects are amplified when paired with a coherent demographic identity is a question the current dataset cannot answer. Future meta-analytic work should examine these combinations explicitly as the literature matures.
+
+In addition to addressing these limitations, future research could investigate how moderators such as implementation quality, interaction duration, task characteristics, and cultural context explain the remaining heterogeneity. Longitudinal designs are particularly needed, as most studies in this corpus examined single-session interactions and the durability of anthropomorphic effects in repeated use is unknown. We make our coding sheet available for others to build on\footnote{\href{https://osf.io/7rj6f/overview?view_only=35b327583fee4222b5b336465107580c}{https://bit.ly/4nn1NhZ}}.
+
+\subsection{Ethical Considerations of Anthropomorphic Design in CAs}
+
+The anthropomorphic design of CAs raises ethical concerns that practitioners must address before deployment.
+
+The most direct risk is parasocial dependency. Human-like communication can produce emotional attachments to agents incapable of genuine reciprocation \cite{chaves2021should}. This risk is not hypothetical. Documented cases of users forming deep emotional dependencies on anthropomorphic CAs have resulted in real psychological harm \cite{laura_kuenssberg_mothers_2025}. The communication style and personality effects documented in this study, while beneficial for UX and social perception, are precisely the attributes that drive parasocial attachment. The most effective CAs by the metrics in this study are also the ones that carry the highest dependency risk.
+
+A second risk is manipulation. Anthropomorphism lowers users' critical evaluation of CA outputs and increases compliance with suggestions that users would otherwise scrutinize \cite{chaves2021should}. This functions as an inadvertent manipulation mechanism. Users who perceive a CA as a social entity are more likely to trust its outputs and less likely to detect errors or biases. The large effect of communication style on social perception documented here means that well-designed language can produce strong impressions of competence and warmth that may exceed actual system capabilities.
+
+A third risk concerns demographic representation. Assigning demographic attributes to CAs, particularly gender and ethnicity, risks encoding and reinforcing social stereotypes. Pairing female presentation with service roles, or associating demographic attributes with authority markers, can reproduce patterns of bias at scale given the reach of deployed CA systems. The finding that demographic attributes produce meaningful effects on user outcomes also means that these design choices are not neutral.
+
+Designers should treat disclosure of artificial identity and consistency between stated and actual capabilities as ethical obligations in all deployment contexts. The design guidelines in this study are effectiveness recommendations. Practitioners are urged to weigh them against the dependency, manipulation, and representation 
+risks described here before making deployment decisions.
+
+
+\section{Conclusion}
+
+This study synthesized empirical findings on anthropomorphic CA design into a structured meta-analytic framework, distinguishing behavioral from representational attributes and mapping effects across seven outcome categories. Anthropomorphic attributes consistently produce positive effects on user outcomes, though the magnitude of these effects depends, substantially on which attributes are implemented and which outcomes are targeted. Communication style and personality expression produce the strongest effects, particularly on UX and social perception. Representational attributes, including visual appearance and demographic identity, also produce meaningful effects and should not be dismissed. The evidence is scoped to predominantly text-centric CA research and should not be generalised to embodied or voice agents without further empirical support. All effect estimates are upwardly biased due to confirmed publication bias and should be treated as upper bounds. These findings offer CA developers a structured, evidence-based foundation for anthropomorphic design decisions.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

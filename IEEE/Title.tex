@@ -1,0 +1,62 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{balance}
+
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore con-ver-sa-tion-al an-thro-po-mor-phism}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\definecolor{changeblue}{RGB}{0,0,255}
+\newif\ifshowchanges
+% \showchangestrue
+\ifshowchanges
+  \DeclareRobustCommand{\change}[1]{\textcolor{changeblue}{#1}}
+\else
+  \DeclareRobustCommand{\change}[1]{#1}
+\fi
+
+\begin{document}
+
+\title{What Makes Conversational Agents Feel Human? A Meta-Analysis of Anthropomorphic Design Effects}
+
+\author{Danial Amin, Joni Salminen, Angelica Fabillar, Sercan \c{S}eng\"{u}n, and Bernard J. Jansen%
+\thanks{Danial Amin and Joni Salminen are with the University of Vaasa, Vaasa, Finland. E-mail: danialam@uwasa.fi; jonisalm@uwasa.fi.}%
+\thanks{Angelica Fabillar is with the School of Marketing and Communication, University of Vaasa, Vaasa, Finland. E-mail: x7340177@student.uwasa.fi.}%
+\thanks{Sercan \c{S}eng\"{u}n is with the University of Central Florida, Orlando, FL, USA. E-mail: sercan.sengun@ucf.edu.}%
+\thanks{Bernard J. Jansen is with the Qatar Computing Research Institute, Hamad Bin Khalifa University, Doha, Qatar. E-mail: bjansen@hbku.edu.qa.}%
+\thanks{Corresponding author: Danial Amin.}}
+
+\markboth{IEEE Journal Submission,~2026}%
+{Amin \MakeLowercase{\textit{et al.}}: What Makes Conversational Agents Feel Human?}
+
+\maketitle
+
+\begin{abstract}
+Conversational agents are typically designed with human-like attributes to improve user outcomes, yet the field lacks systematic evidence on which anthropomorphic attributes matter most and for which outcomes. We address this gap through a meta-analysis of 583 effects extracted from 79 predominantly text-centric conversational agent studies published between 2018 and 2025. A three-level random-effects model applied to the 169 calculable effects ($N$ = 21,104) yielded a pooled Hedges' $g$ = 0.68, 95\% CI [0.38, 0.98]. Confirmed publication bias warranted trim-and-fill correction, which produced an adjusted estimate of $g$ = 0.48. All estimates should be treated as upper bounds. Behavioral attributes, particularly communication style ($g$ = 1.15) and personality traits ($g$ = 1.07), produced the largest effects. Representational attributes, including visual appearance and demographic identity, produced moderate effects. Effect sizes varied substantially across outcome categories, with user experience ($g$ = 0.69), trust ($g$ = 0.65), and learning ($g$ = 0.75) showing moderate-to-large effects, while social perception showed more modest returns. These findings provide the field with tentative benchmark effect sizes for anthropomorphic conversational agent design and translate into design guidelines for practitioners.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Conversational agents, anthropomorphism, meta-analysis, user outcomes, human-AI interaction.
+\end{IEEEkeywords}
+\end{document}

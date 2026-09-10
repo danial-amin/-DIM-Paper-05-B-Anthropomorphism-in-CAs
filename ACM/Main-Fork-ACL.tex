@@ -1,0 +1,345 @@
+% Emerald Publishing - Construction Innovation Submission Template
+% by Oleksandr Melnyk
+% Ver 0.0.4
+% Based on: https://www.emeraldgrouppublishing.com/journal/ci#author-guidelines
+
+
+\documentclass{article}
+
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amssymb}
+\usepackage{siunitx}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[utf8]{inputenc}
+\usepackage[right]{lineno}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{url}
+\usepackage{titlesec}
+%\usepackage[compatibility=false]{caption}
+\usepackage{authblk}
+\usepackage{xcolor} % Load the xcolor package for color options
+\renewcommand{\thetable}{\Roman{table}}
+
+% Define a new format for \subsection
+\titleformat{\subsection}
+  {\mdseries\itshape\large} % Medium series, italic shape, and large font size
+  {\thesubsection}{1em}{} % Numbering, spacing, and the section title itself
+
+
+% Emerald Harvard Citation Style
+
+\usepackage[english]{babel}
+\usepackage[style=authoryear,backend=biber,natbib=true,maxcitenames=2,uniquelist=false]{biblatex}
+\addbibresource{Bibliography.bib} % your .bib file
+
+% Customizing biblatex for Harvard style
+% Customizing biblatex for Harvard style
+\DeclareNameAlias{sortname}{family-given}
+\DeclareNameAlias{default}{family-given}
+
+\renewbibmacro{in:}{}
+\DeclareFieldFormat[article]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[book]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[bookinbook]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[inbook]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[incollection]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[inproceedings]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[manual]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[misc]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[unpublished]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[patent]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[report]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[online]{title}{\mkbibquote{#1}\addcomma}
+\DeclareFieldFormat[software]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[booklet]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[periodical]{title}{\mkbibemph{#1}\addcomma}
+\DeclareFieldFormat[standard]{title}{\mkbibemph{#1}\addcomma}
+
+\DeclareFieldFormat[article]{journaltitle}{\iffieldundef{shortjournal}{\mkbibemph{#1}\addcomma}{\mkbibemph{\printfield{shortjournal}}\addcomma}}
+\DeclareFieldFormat{volume}{\bibstring{volume}~#1}
+\DeclareFieldFormat{number}{\bibstring{number}~#1}
+
+% Definitions for "Vol." and "No."
+\DefineBibliographyStrings{english}{
+  volume = {Vol.},
+  number = {No.}
+}
+
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addcomma\space}%
+  \usebibmacro{issue+date}}
+
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{publisher}%
+  \iflistundef{location}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}}
+
+\renewcommand*{\bibpagespunct}{\addcomma\space}
+
+% Customizing page field format to prevent duplication
+% \DeclareFieldFormat{pages}{%
+%   \mkfirstpage[{\mkpageprefix[page]{#1}}]{#1}}
+
+% Customizing citations for Harvard style
+\DeclareCiteCommand{\cite}[\mkbibparens]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\renewbibmacro*{cite:labelyear+extrayear}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printtext[bibhyperref]{%
+       \printfield{labelyear}%
+       \printfield{extrayear}}}}
+
+\renewbibmacro*{cite:labeldate+extradate}{%
+  \iffieldundef{labelyear}
+    {}
+    {\printtext[bibhyperref]{%
+       \printfield{labelyear}%
+       \printfield{extradate}}}}
+
+\AtEveryBibitem{
+  \clearfield{month}
+  \clearfield{day}
+  \ifentrytype{book}{
+    \clearlist{location}
+  }{}
+}
+
+% Formatting "et al." in italics followed by a comma
+\DefineBibliographyStrings{english}{
+  andothers = {\textit{et al.},}
+}
+
+\DeclareFieldFormat[article]{volume}{\bibstring{jourvol}\addnbspace #1}
+\DeclareFieldFormat[article]{number}{\bibstring{number}\addnbspace #1}
+\DeclareFieldFormat[article]{volume}{Vol. #1}
+\DeclareFieldFormat[article]{number}{No. #1}
+% Customizing DOI field format to lowercase "doi"
+%\DeclareFieldFormat{doi}{\bibstring{doi}\addcolon\space\url{#1}}
+
+% Customizing URL field format to "available at:"
+\DeclareFieldFormat{url}{\bibstring{available at}\addcolon\space\url{#1}}
+\DeclareFieldFormat{urldate}{\mkbibparens{accessed \addspace#1}}
+
+% Customizing urldate to match the required format
+\DeclareFieldFormat{urldate}{%
+  \mkbibparens{accessed\space%
+    \thefield{urlday}\addspace%
+    \mkbibmonth{\thefield{urlmonth}}\addspace%
+    \thefield{urlyear}}}
+
+
+% Configure cleveref
+\crefformat{figure}{#2Figure~#1#3}
+\Crefformat{figure}{#2Figure~#1#3}
+\crefformat{table}{#2Table~#1#3}
+\Crefformat{table}{#2Table~#1#3}
+\crefformat{section}{#2Section~#1#3}
+\Crefformat{section}{#2Section~#1#3}
+
+%Front Matter
+\author[1]{Author Name 1}
+\author[2]{Author Name 2}
+
+\affil[1]{Institute, Department, City, Country
+email (corr. author)}
+\affil[2]{Institute, Department, City, Country}
+
+\title{Anthropomorphism in Conversational Agents }
+
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+\textbf{Purpose} - .
+
+\textbf{Design/Methodology/Approach} - .
+
+\textbf{Findings} - .
+
+\textbf{Originality/Value} - . 
+\\
+\\
+%add 6 keywords
+\textbf{Keywords:} keyword 1; keyword 2; keyword 3, keyword 4; keyword 5; keyword 6
+\end{abstract}
+\linenumbers
+
+
+\section{Introduction}
+\label{sec:introduction}
+Conversational agents (CAs) provide users with immediate, personalized assistance through natural language interaction, making information and services more accessible than traditional interfaces. CAs, which often times are also referred as chatbots (CBs), virtual agents (VAs), or virtual assistants (VAs), are software systems designed to interact with users through natural language, typically using text or voice interfaces. These agents utilize natural language processing (NLP) and machine learning (ML) to comprehend user inputs and provide tailored responses. CAs have become common in customer service, healthcare, and education \citep{araujo2018living}. When designing a CA, one key design decision is whether to give these agents human-like characteristics or not. This practice, known as \textit{anthropomorphism}, includes features such as human names, personality traits, and tonality and nature of conversational language \citep{epley2007seeing}. Anthropomorphic design draws on theories like Computers Are Social Actors (CASA), which suggests that people automatically apply social rules when interacting with computers that display human-like cues \citep{nass1994computers,reeves1996media}. Recent advances in large language models (LLMs) have made it easier to create CAs that convincingly mimic human conversation \citep{pnas2025anthropomorphic}. A specific form of anthropomorphism involves assigning explicit personas to CAs, defined sets of attributes that shape their identity and responses. The PersonaChat dataset introduced this approach by providing profile descriptions of conversational agents with characteristics such as hobbies, occupations, and preferences \citep{zhang2018personalizing}. Research on persona-based chatbots has grown since then \citep{chen2024trends}, exploring the effects of personification on CAs' user experience and interaction outcomes.
+
+Despite growing interest in anthropomorphic design for CAs, we lack a systematic understanding of which persona attributes matter most and their influence user responses. Studies examine individual design characteristics such as names, gender, or communication style \citep{go2019humanizing,seeger2021texting}, but the findings remain scattered across different contexts and applications. Some research suggests that anthropomorphic characteristics increase user trust and satisfaction through mechanisms such as social presence \citep{konya2023anthropomorphism,blut2021understanding}, while other studies identify potential negative effects when human characteristics create unrealistic expectations \citep{crolic2022blame,ciechanowski2019shades}. Thus the field needs synthesis of empirical evidence to guide design decisions for information systems that use conversational agents. This meta-analysis addresses this gap by systematically reviewing studies on persona-based CAs to identify which anthropomorphic characteristics have been studied, how they are implemented, and what effects they produce on user outcomes.
+
+CA personas can encompass a wide range of human-like attributes. Some CAs have demographic characteristics, such as age and gender, while others possess personality traits or communication styles \citep{go2019humanizing}. Visual features like avatars or profile pictures can make CAs appear more human \citep{araujo2018living}. Conversational design choices include whether CAs use a human name, refer to themselves in first person, or include backstory information \citep{seeger2021texting}. Understanding the attributes examined by researchers helps identify the specific design elements that matter in creating effective conversational agents \citep{blut2021understanding}. Similarly, a systematic inventory of persona attributes would also reveal gaps to understand certain characteristics that remain understudied. Recent work has explored the effect of different persona types on user perceptions \citep{sun2024building} and their implementations in modern large language model systems \citep{chen2024trends}. However, this needs to be expanded, especially given the rapid transformation in the domains of LLMs. Thus leading to, \textbf{RQ1:} \textbf{What types of persona attributes have been examined in research on CA's design?}
+
+The implementation of anthropomorphism in CA is riddled with choices that shape the way users experience CAs' personas. Researchers must decide whether to make personas explicit or implicit, fixed or adaptive to individual users \citep{huang2023personalized}. The decision to disclose the artificial nature of a CA versus present it as human-like raises ethical considerations \citep{araujo2018living}. The technical implementation varies between platforms, from text-only interfaces to embodied avatars with voice capabilities \citep{go2019humanizing}. Some studies provide users with written persona descriptions prior to interaction \citep{zhang2018personalizing,dinan2020second}, while others embed persona characteristics into the conversation itself \citep{song2021bob}. Recent work has explored the effect of persona retention across multiple conversation sessions \citep{xu2022beyond} as well as persona generation specific to user queries \citep{jang2022focus}. However, there exists a gap in the literature providing not only the different choices for personification characteristics but also how they impact the personification of the CAs. This leads to, \textbf{RQ2:} \textbf{How are persona attributes operationalized and implemented in chatbot systems?}
+
+The primary motivation for studying chatbot personas is understanding their effects on user experience and behavior. Research examines various outcome measures including trust, satisfaction, perceived intelligence, and behavioral intentions \citep{konya2023anthropomorphism,blut2021understanding}. Some studies focus on immediate interaction quality \citep{go2019humanizing}, while others investigate the building of long-term relationships \citep{xu2022beyond}. The effects may differ according to the application context, and educational CAs require different design choices than customer service agents \citep{araujo2018living}. User characteristics like emotional state can moderate how people respond to anthropomorphic features, with angry customers showing negative reactions to human-like CAs \citep{crolic2022blame}. Individual differences in personality and cognitive style also influence the perceptions of anthropomorphism \citep{spatola2021personality}. Synthesizing evidence on which persona attributes produce which effects under what conditions provides actionable guidance for designers. \textbf{RQ3:} \textbf{What effects do different persona attributes for CAs have on user perceptions, attitudes, and behaviors?}
+
+To address these research questions, we conducted a systematic review and meta-analysis of empirical studies examining persona-based CAs. We searched four academic databases to identify studies published between 2018 and 2024 that investigated CAs with explicit persona/personality attributes. Our search focused on studies that enabled personas through specific characteristics like demographic features, personality traits, or communication styles. We systematically coded each study for the types of persona attributes examined, implementation methods used, study contexts, and outcome variables measured. For all the studies reporting quantitative effect sizes, we extracted statistical information to enable meta-analytic synthesis. Our coding scheme captured persona attributes across multiple dimensions, including visual representation, conversational features, demographic characteristics, and personality traits. We also recorded methodological details such as whether personas were disclosed to users, whether they were fixed or adaptive, and the application domain. 
+
+\section{Related Work}
+\subsection{Conversational Agents}
+
+Beyond their foundational capabilities in NLP, contemporary CAs have evolved into sophisticated systems deployed across diverse domains with varying requirements and user expectations. These systems now operate in specialized contexts ranging from healthcare support and mental health interventions to educational tutoring and customer service automation \citep{mariani2023artificial,nguyen2024conversational}. The technological landscape has shifted dramatically with recent advances, as conversational AI platforms now integrate multimodal capabilities, allowing interactions through text, voice, and even visual interfaces across messaging applications, smart speakers, and mobile devices \citep{allouch2021conversational}. Modern implementations increasingly leverage cloud-based architectures that enable scalable deployment, with major technology providers offering conversational AI platforms that incorporate features such as dialogue management, sentiment analysis, and context preservation in extended interactions \citep{schobel2024charting}.
+
+The shift toward neural approaches, particularly those based on transformer architectures and LLMs, has fundamentally altered the capabilities and limitations of conversational agents \citep{finch2023dont}. Although earlier systems relied on rule-based pattern matching or retrieval mechanisms, contemporary agents can generate novel responses and maintain coherent multi-turn conversations without predefined scripts \citep{fu2022learning}. However, this evolution introduces new challenges to ensure consistent quality, prevent hallucinations, and maintain appropriate boundaries in sensitive applications \citep{dam2024complete}. The deployment of these systems on a scale has also raised questions about evaluation methodologies, as traditional metrics often do not capture the detaailed aspects of conversational quality that determine user satisfaction and task success \citep{finch2023dont}.
+
+\subsection{Anthropomorphism in CAs}
+
+The effects of anthropomorphic design of CAs on user perceptions extend beyond simple preference, influencing crucial outcomes such as trust formation, engagement levels, and behavioral compliance in conversational interactions. Research demonstrates that anthropomorphic features enhance social presence, which mediates relationships between design elements and user satisfaction, trust, and empathy toward CAs \citep{meyer2023leverage,ischen2024communication}. The mechanism appears to operate through users' perception of the agent as a social entity rather than merely a tool, with features such as personification through avatars and socially-oriented communication styles both contributing independently to this effect \citep{meyer2023leverage}. Studies examining customer service contexts reveal that anthropomorphism positively influences engagement and purchase intentions, with these relationships mediated by enhanced customer involvement \citep{depaula2025anthropomorphism}. However, the relationship between anthropomorphism and user responses is not uniformly positive, as evidenced by research on the uncanny valley effect, where excessive human-likeness can trigger discomfort and reduce brand attitudes \citep{soni2024chatbot}.
+
+The complexities of anthropomorphic design become particularly evident in failure scenarios and contexts requiring sustained interaction. When AI CAs fail to meet expectations, anthropomorphic characteristics can help restore trust by allowing users to apply attribution frameworks similar to those used in human relationships, thereby reducing blame attributions when failures occur \citep{liu2024exploring}. Yet this protective effect depends on individual differences, with factors such as AI anxiety and technology self-efficacy moderating how users respond to anthropomorphic features \citep{liu2024exploring,wang2025influence}. Recent work also highlights the importance of consistency in anthropomorphic presentation, as mismatches between a CA's human-like cues and its actual capabilities can lead to expectancy violations that more severely damage user satisfaction than purely functional failures \citep{ischen2024communication,qu2024chatbot}. This latest research therefore suggests that the anthropomorphic design requires careful calibration, balancing the benefits of social presence against the risks of creating unrealistic expectations or crossing into uncanny territory \citep{soni2024chatbot}.
+
+\subsection{Personification of CAs}
+
+Advances in persona implementation in Cas have addressed key technical challenges in maintaining consistent and contextually appropriate persona representations across extended dialogues. Research has advanced beyond simple persona profile conditioning to incorporate mechanisms for dynamic persona extraction and memory management, enabling systems to track and update persona information for both the agent and the user over time \citep{xu2022long,maharana2024evaluating}. Recent work has explored dialogue act-based methods for extracting partner personas from conversational context, recognizing that effective personification requires understanding not only the CA's own characteristics but also adapting to the interlocutor's implied attributes \citep{kim2024dialogue}. The challenge of persona consistency has been addressed through reinforcement learning approaches that explicitly optimize coherence between responses and predefined persona attributes, as well as natural language inference models that verify alignment between generated utterances and persona profiles \citep{shea2023building,yan2023personalized}. Long-term memory mechanisms represent a critical advancement, allowing agents to maintain persona coherence across multiple conversation sessions by selectively retrieving and incorporating relevant historical information \citep{xu2022long,maharana2024evaluating}.
+
+The integration of LLMs has created new possibilities for persona-based dialogue while simultaneously introducing novel challenges related to data generation, consistency maintenance, and evaluation. LLMs enable the creation of synthetic persona-based conversational datasets that can augment limited human-annotated resources, with iterative refinement processes ensuring faithfulness to defined persona attributes \citep{jandaghi2023faithful}. These models can also directly implement persona-grounded dialogue in CAs through careful prompt engineering and retrieval-augmented generation (RAG), where persona descriptions inform response generation without requiring task-specific fine-tuning \citep{ahn2023mpchat}. However, recent evaluations reveal that LLMs face difficulties maintaining consistent persona identities over very long conversations, with performance degrading as dialogue length increases and the complexity of persona attributes increases \citep{maharana2024evaluating,lee2025examining}. Addressing these limitations has motivated research on hybrid architectures that combine LLM capabilities with specialized memory modules and persona verification mechanisms, seeking to achieve both the flexibility of generation-based approaches and the consistency guarantees of retrieval-based methods \citep{zhang2024hello,lee2025examining}.
+\section{Methodology}
+
+This systematic review and meta-analysis followed established guidelines for conducting systematic literature reviews \citep{kitchenham2007guidelines}. We conducted a comprehensive search of academic databases to identify empirical studies examining persona-based conversational agents, followed by a rigorous screening process to ensure study quality and relevance. Data extraction employed a structured coding scheme developed through iterative refinement, and quantitative synthesis was performed where sufficient data were available.
+
+\subsection{Article Search}
+
+We searched four major academic databases to ensure comprehensive coverage of relevant literature: Scopus, Web of Science, IEEE Xplore Digital Library, and ACM Digital Library. The search was conducted in August 2025 and covered publications from January 2018 through August 2025. This timeframe was selected to capture contemporary research following the introduction of the influential PersonaChat dataset \citep{zhang2018personalizing} and the subsequent proliferation of persona-based dialogue systems.
+
+The search query was designed to capture studies addressing both conversational agents and persona-related concepts. The Boolean search string used across all databases was:
+
+\begin{quote}
+\texttt{("chatbot" OR "conversational agent" OR "dialogue system" OR "virtual assistant" OR "Large Language Model") AND ("persona*" OR "personalit*" OR "character*" OR "role")}
+\end{quote}
+
+This query structure balanced comprehensiveness with precision, using OR operators to capture varied terminology for conversational agents and persona attributes, while the AND operator ensured studies addressed both core concepts. Wildcard operators (e.g., persona*) were employed to capture morphological variations of search terms. The search was limited to article titles, abstracts, and keywords to maintain relevance. The initial combined search yielded 735 unique publications after removing duplicates.
+
+\subsection{Article Selection}
+
+The article selection process involved multiple filtering stages to ensure only high-quality, relevant primary studies were included in the final analysis. Figure~\ref{fig:prisma} presents the PRISMA flow diagram illustrating the selection process.
+
+\subsubsection{Quality Assessment}
+
+We employed the JUFO (Publication Forum) ranking system to assess publication venue quality \citep{jufo2021classification}. Only articles published in venues rated JUFO level 1 or higher were included, ensuring a baseline standard of peer review and scholarly rigor. For venues not indexed in the JUFO database, the principal investigator assessed quality based on venue indexing (e.g., Scopus, Web of Science coverage), impact factor, and established reputation within the research community. This assessment was conducted through discussion among the research team to reach consensus on borderline cases.
+
+\subsubsection{Screening Process}
+
+The screening process consisted of two sequential stages. First, title and abstract screening removed clearly irrelevant publications. This stage eliminated conference reviews, book chapters, and articles not meeting basic relevance criteria, reducing the pool from 670 publications (after deduplication) to 620 publications.
+
+Second, full-text screening applied detailed inclusion and exclusion criteria. Two researchers independently reviewed each publication, with disagreements resolved through discussion. The inclusion criteria were:
+
+\begin{itemize}
+    \item \textbf{Language}: Published in English
+    \item \textbf{Publication type}: Peer-reviewed primary research (excluding review articles, opinion pieces, and secondary studies)
+    \item \textbf{Focus on conversational agents}: The study must investigate chatbots, dialogue systems, or conversational agents as the primary focus
+    \item \textbf{Persona implementation}: The conversational agent must have an explicitly/implicitly defined and/or implemented persona with specific attributes (e.g., personality traits, demographic characteristics, communication style)
+    \item \textbf{Empirical evaluation}: The study must include evaluation of the persona-based system with measurable outcomes
+\end{itemize}
+
+Studies were excluded if they: (1) focused solely on technical architecture without persona characteristics; (2) discussed personas only conceptually without implementation or evaluation; (3) examined user personas rather than agent personas; or (4) lacked sufficient methodological detail for quality assessment.
+
+Application of these criteria resulted in a final sample of 98 articles. Table~\ref{tab:screening_summary} presents the number of articles retained at each screening stage.
+
+\begin{table}[htbp]
+\centering
+\caption{Article screening summary}
+\label{tab:screening_summary}
+\begin{tabular}{lcc}
+\hline
+\textbf{Screening Stage} & \textbf{Papers Removed} & \textbf{Papers Remaining} \\
+\hline
+Combined collection & -- & 735 \\
+Deduplication (automatic) & 65 & 670 \\
+Deduplication (manual) & 31 & 639 \\
+Conference reviews \& book chapters & 19 & 620 \\
+\hline
+\multicolumn{3}{l}{\textit{Full-text screening with inclusion criteria:}} \\
+Quality assessment (JUFO) & 59 & 561 \\
+Language (English) & 0 & 561 \\
+Peer-reviewed primary study & 16 & 545 \\
+Focus on conversational agents & 111 & 450 \\
+Persona defined/implemented & 227 & 223 \\
+Evaluation included & 125 & 98 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Data Extraction}
+
+Data extraction was performed using a structured coding scheme developed iteratively by the research team. The coding scheme captured multiple dimensions of persona-based conversational agents, including persona attributes, implementation characteristics, study design features, and outcome measures.
+
+\subsubsection{Coding Scheme Development}
+
+The coding scheme was developed through an iterative process. The PI and Supervisor first reviewed a sample of 5 articles to identify key variables of interest. This initial review informed the development of a preliminary coding book containing variable definitions, coding instructions, and examples. The coding book was refined through pilot coding of an additional 5 articles, with discrepancies discussed and resolved to clarify ambiguous coding decisions. The final coding scheme included 32 variables organized into the following categories:
+
+\begin{itemize}
+    \item \textbf{Study characteristics}: Publication year, paper type, field of study, research methodology
+    \item \textbf{Persona attributes}: Human name, gender, age, personality traits, backstory, visual representation, communication modality, self-reference style
+    \item \textbf{Implementation features}: Persona disclosure to users, fixed versus adaptive persona, interaction initiation, politeness encoding
+    \item \textbf{Context variables}: Application domain, organizational context, intended user audience, interaction purpose
+    \item \textbf{Experimental design}: Independent variables, dependent variables, measurement approaches
+\end{itemize}
+
+The complete coding scheme and operational definitions for each variable are available in the supplementary materials.
+
+\subsubsection{Coding Process and Reliability}
+
+Four trained coders independently extracted data from the included articles. Each coder received training on the coding scheme through group workshops and practice coding exercises. To ensure reliability, 20\% of articles were double-coded by two independent coders. Inter-rater reliability was assessed using Cohen's kappa for categorical variables and intraclass correlation coefficients for continuous variables. Disagreements were resolved through discussion among coders and, when necessary, consultation with the principal investigator. 
+
+For studies reporting quantitative results, we extracted effect sizes along with their associated statistics. This included extracting information about independent variables (e.g., presence/type of persona attribute), dependent variables (e.g., trust, satisfaction, engagement), effect direction (positive/negative), statistical significance, alpha values, effect size values, and the type of effect size metric reported (e.g., Cohen's \textit{d}, correlation coefficients, odds ratios).
+
+\subsection{Meta-analysis}
+
+For studies reporting sufficient quantitative information, we conducted meta-analytic synthesis to estimate the pooled effects of persona attributes on user outcomes. The meta-analysis focused on extracting relationships between independent variables (persona characteristics or design features) and dependent variables (user perceptions, attitudes, and behaviors).
+
+\subsubsection{Effect Size Extraction}
+
+We extracted effect sizes from studies that reported quantitative relationships between variables. For each effect, we recorded the following information: (1) the dependent variable and its measurement approach (single-item or multi-item scale); (2) the independent variable and its measurement technique (survey-based self-report, observation, or other methods); (3) the direction of the effect (positive, negative, or no effect); (4) statistical significance and alpha values; (5) the effect size value and its metric type. 
+
+% 
+
+\section{Findings}
+
+\section{Discussion}
+
+\section{}
+
+
+
+%\break
+\printbibliography
+
+\end{document}
